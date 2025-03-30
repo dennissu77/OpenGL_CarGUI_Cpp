@@ -3,7 +3,11 @@
 
 
 #define port 65432
-#define ip_addr "127.0.0.1"
+// #define ip_addr "127.0.0.1"
+
+//192.168.122.140
+#define ip_addr "192.168.122.140"
+
 #define MAX_CHUNK_SIZE 5000
 
 std::string decode_utf8(const char *data, size_t length) {

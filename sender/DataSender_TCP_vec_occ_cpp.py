@@ -13,7 +13,9 @@ MAX_CHUNK_SIZE = 5000
 
 def send_udp_message():
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect(("localhost", 65432))
+    #client_socket.connect(("localhost", 65432))
+    client_socket.connect(("192.168.122.140", 65432))
+
 
     try:
         obj_path = "result_vec.json"
