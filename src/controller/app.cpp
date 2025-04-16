@@ -216,22 +216,38 @@ std::vector<TransformComponent> App::line_interpolation(
 void App::set_up_glfw() {
 
     glfwInit();
-	glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);	
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
-	
-	window = glfwCreateWindow(640, 480, "OpenGL_CarGUI", NULL, NULL);
-	glfwMakeContextCurrent(window);
-	// glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-	
-	// 用 GLad 載入當前版本 OpenGL 的所有 functions
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-		std::cout << "Couldn't load GLad" << std::endl;
-		glfwTerminate();
-	}
 
+    // 選擇 OpenGL ES 3.0
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);	
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+
+    // 取得主螢幕
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+
+    // 建立全螢幕視窗（無須 Window Manager）
+    window = glfwCreateWindow(
+        mode->width, mode->height,
+        "OpenGL_CarGUI",
+        monitor,  // 設為全螢幕（NULL = 視窗模式）
+        NULL
+    );
+
+    if (!window) {
+        std::cerr << "Failed to create GLFW window" << std::endl;
+        glfwTerminate();
+        return;
+    }
+
+    glfwMakeContextCurrent(window);
+
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+        std::cerr << "Couldn't load GLad" << std::endl;
+        glfwTerminate();
+    }
 }
 
 void App::set_up_opengl() {
