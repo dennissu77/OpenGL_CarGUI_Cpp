@@ -59,7 +59,19 @@ chmod +x run_test.sh
 gnuplot plot_cpu_usage.gp
 xdg-open cpu_usage_plot.png
 ```
+# VM
+傳輸build資料夾到VM
+```
+scp -r ./build ennis@192.168.122.140:/home/ennis/
+```
+
+在vm裡面執行刪除上一版本的程式
+```
+rm -rf ~/build
+```
 
 
-
-
+```
+ssh ennis@192.168.122.140 'rm -rf ~/build'
+scp -r ./build ennis@192.168.122.140:/home/ennis/
+```
